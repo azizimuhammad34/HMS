@@ -81,7 +81,7 @@ export async function POST(request: NextRequest) {
       {
         $setOnInsert: {
           key: "default",
-          hospitalName: "Gilgit Hospital",
+          hospitalName: " Hospital Management System",
           city: "Gilgit",
           region: "Gilgit-Baltistan",
           country: "Pakistan",

@@ -15,7 +15,7 @@ export default async function AppLayout({
     redirect("/login");
   }
 
-  let hospitalName = "Gilgit Hospital";
+  let hospitalName = " Hospital Management System";
   try {
     await connectDb();
     const settings = await HospitalSettings.findOne({ key: "default" }).lean();

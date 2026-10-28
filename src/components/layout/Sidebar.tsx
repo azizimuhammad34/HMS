@@ -100,8 +100,8 @@ export function Sidebar({
   return (
     <aside className="flex w-60 shrink-0 flex-col border-r border-[var(--color-border)] bg-[var(--color-sidebar)] text-[var(--color-sidebar-text)]">
       <div className="border-b border-white/10 px-4 py-5">
-        <p className="text-xs uppercase tracking-[0.14em] text-teal-200/80">HMS</p>
-        <p className="mt-1 text-sm font-semibold leading-snug">{hospitalName}</p>
+        <p className="text-xs uppercase tracking-[0.14em] text-teal-200/80">Hospital Management System</p>
+        
       </div>
       <nav className="flex-1 space-y-0.5 p-3" aria-label="Primary">
         {items.map((item) => {

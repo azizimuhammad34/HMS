@@ -13,7 +13,7 @@ const hospitalSettingsSchema = new Schema(
       required: true,
       trim: true,
       maxlength: 200,
-      default: "Gilgit Hospital",
+      default: " Hospital Management System",
     },
     city: {
       type: String,
