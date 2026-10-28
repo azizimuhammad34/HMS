@@ -21,7 +21,7 @@ export default async function LoginPage({
             Sign in
           </h1>
           <p className="mt-1 text-sm text-[var(--color-text-muted)]">
-            Gilgit, Gilgit-Baltistan — authorized staff only
+             — authorized staff only
           </p>
         </div>
         <div className="rounded-lg border border-[var(--color-border)] bg-white p-6 shadow-sm">
