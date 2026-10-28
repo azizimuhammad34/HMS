@@ -1,5 +1,4 @@
 import { EmptyState } from "@/components/ui/EmptyState";
-import { MetricCard } from "@/components/ui/MetricCard";
 import type { SuperAdminDashboard as Data } from "@/lib/services/dashboard";
 import Link from "next/link";
 
