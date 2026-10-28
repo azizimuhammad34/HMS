@@ -1,0 +1,135 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { Role } from "@/types/roles";
+
+type NavItem = { href: string; label: string };
+
+function navForRole(role: Role): NavItem[] {
+  const common: NavItem[] = [{ href: "/dashboard", label: "Dashboard" }];
+
+  switch (role) {
+    case "SUPER_ADMIN":
+      return [
+        ...common,
+        { href: "/users", label: "Users" },
+        { href: "/patients", label: "Patients" },
+        { href: "/appointments", label: "Appointments" },
+        { href: "/clinical", label: "Clinical" },
+        { href: "/ipd", label: "IPD" },
+        { href: "/nursing/vitals", label: "Vitals" },
+        { href: "/nursing/notes", label: "Nursing notes" },
+        { href: "/pharmacy", label: "Pharmacy" },
+        
+        
+        
+        { href: "/billing", label: "Billing" },
+        
+        { href: "/settings", label: "Settings" },
+      ];
+    case "ADMIN":
+      return [
+        ...common,
+        { href: "/users", label: "Staff" },
+        { href: "/patients", label: "Patients" },
+        { href: "/appointments", label: "Appointments" },
+        { href: "/ipd", label: "IPD" },
+        { href: "/nursing/vitals", label: "Vitals" },
+        { href: "/nursing/notes", label: "Nursing notes" },
+        { href: "/pharmacy", label: "Pharmacy" },
+        
+        
+        
+        { href: "/billing", label: "Billing" },
+        
+      ];
+    case "RECEPTIONIST":
+      return [
+        ...common,
+        { href: "/patients", label: "Patients" },
+        { href: "/patients/new", label: "Register patient" },
+        { href: "/appointments", label: "Appointments" },
+        { href: "/ipd", label: "IPD" },
+        { href: "/pharmacy", label: "Pharmacy" },
+        
+        
+        
+        { href: "/billing", label: "Billing" },
+        
+      ];
+    case "DOCTOR":
+      return [
+        ...common,
+        { href: "/appointments", label: "My schedule" },
+        { href: "/patients", label: "Patients" },
+        { href: "/clinical", label: "Clinical" },
+        { href: "/ipd", label: "IPD" },
+        { href: "/pharmacy", label: "Pharmacy" },
+        
+        
+        
+      ];
+    case "NURSE":
+      return [
+        ...common,
+        { href: "/nursing/vitals", label: "Vitals" },
+        { href: "/nursing/notes", label: "Nursing notes" },
+        { href: "/patients", label: "Patients" },
+        { href: "/ipd", label: "IPD" },
+        { href: "/pharmacy", label: "Pharmacy" },
+        
+        
+        
+      ];
+    default:
+      return common;
+  }
+}
+
+export function Sidebar({
+  role,
+  hospitalName,
+}: {
+  role: Role;
+  hospitalName: string;
+}) {
+  const pathname = usePathname();
+  const items = navForRole(role);
+
+  return (
+    <aside className="flex w-60 shrink-0 flex-col border-r border-[var(--color-border)] bg-[var(--color-sidebar)] text-[var(--color-sidebar-text)]">
+      <div className="border-b border-white/10 px-4 py-5">
+        <p className="text-xs uppercase tracking-[0.14em] text-teal-200/80">HMS</p>
+        <p className="mt-1 text-sm font-semibold leading-snug">{hospitalName}</p>
+      </div>
+      <nav className="flex-1 space-y-0.5 p-3" aria-label="Primary">
+        {items.map((item) => {
+          // Prefer the most specific nav match (e.g. /patients/new over /patients).
+          const moreSpecificExists = items.some(
+            (her) =>
+              her.href !== item.href &&
+              her.href.startsWith(`${item.href}/`) &&
+              (pathname === her.href || pathname.startsWith(`${her.href}/`)),
+          );
+          const active =
+            !moreSpecificExists &&
+            (pathname === item.href || pathname.startsWith(`${item.href}/`));
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`block rounded-md px-3 py-2 text-sm transition-colors ${
+                active
+                  ? "bg-white/10 font-medium text-white"
+                  : "text-slate-300 hover:bg-white/5 hover:text-white"
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
+    </aside>
+  );
+}

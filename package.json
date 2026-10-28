@@ -1,0 +1,44 @@
+{
+  "name": "hms-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "date-fns": "^4.4.0",
+    "iron-session": "^9.0.1",
+    "mongoose": "^9.11.4",
+    "nanoid": "^6.0.2",
+    "next": "15.5.28",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^4.7.0",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.28",
+    "jsdom": "^29.1.1",
+    "mongodb-memory-server": "^11.3.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^2.1.9"
+  }
+}
