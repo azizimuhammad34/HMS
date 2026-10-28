@@ -1,6 +1,6 @@
 # Hospital Management System (HMS)
 
-Web-based Hospital Management System for a single medium-sized hospital in Gilgit, Gilgit-Baltistan, Pakistan.
+Web-based Hospital Management System for a single medium-sized hospital in Pakistan.
 
 ## Stack
 

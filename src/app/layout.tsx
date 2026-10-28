@@ -17,7 +17,7 @@ const ibmPlex = IBM_Plex_Sans({
 
 export const metadata: Metadata = {
   title: "Hospital Management System",
-  description: "Hospital Management System for Gilgit, Pakistan",
+  description: "Hospital Management System for Pakistan",
 };
 
 export default function RootLayout({
