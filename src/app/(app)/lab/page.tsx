@@ -13,11 +13,11 @@ export default async function LabPage() {
 
   const canOrder = roleHasPermission(session.user.role, "lab:order");
   const canProcess = roleHasPermission(session.user.role, "lab:process");
-  let result = { orders: [] as any[] };
+  let result: Awaited<ReturnType<typeof listLabOrders>> = { orders: [], total: 0, page: 1, pageSize: 20 };
   try {
     result = await listLabOrders({ pageSize: 20 });
   } catch {
-    result = { orders: [] };
+    result = { orders: [], total: 0, page: 1, pageSize: 20 };
   }
 
   return (
