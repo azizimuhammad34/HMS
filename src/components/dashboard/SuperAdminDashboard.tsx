@@ -29,39 +29,15 @@ export function SuperAdminDashboardView({ data }: { data: Data }) {
         aria-label="Today metrics"
         className="grid gap-0 sm:grid-cols-2 lg:grid-cols-4 border-y border-[var(--color-border)] py-2"
       >
-        <MetricCard
-          label="Registered patients today"
-          value={metrics.registeredPatientsToday}
-          hint={rangeHint}
-        />
-        <MetricCard
-          label="Patient visits today"
-          value={metrics.visitsToday}
-          hint="Encounters started today"
-        />
-        <MetricCard
-          label="Revenue today"
-          value={formatMoney(metrics.revenueToday)}
-          hint="Completed payments"
-        />
-        <MetricCard
-          label="Net collections today"
-          value={formatMoney(metrics.netCollectionsToday)}
-          hint={`Refunds: ${formatMoney(metrics.refundsToday)}`}
-        />
+        
+        
+        
+        
       </section>
 
       <section className="grid gap-0 sm:grid-cols-2 border-b border-[var(--color-border)] pb-2">
-        <MetricCard
-          label="Outstanding balances"
-          value={formatMoney(metrics.outstandingBalances)}
-          hint="Open invoice balances"
-        />
-        <MetricCard
-          label="Appointments today"
-          value={data.appointmentsToday.total}
-          hint={`Scheduled ${data.appointmentsToday.scheduled} · Checked in ${data.appointmentsToday.checkedIn} · Done ${data.appointmentsToday.completed}`}
-        />
+        
+        
       </section>
 
       {data.alerts.length > 0 ? (
