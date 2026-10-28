@@ -5,7 +5,6 @@ import { Encounter } from "@/lib/db/models/Encounter";
 import { Medicine } from "@/lib/db/models/Medicine";
 import { Patient } from "@/lib/db/models/Patient";
 import { Prescription } from "@/lib/db/models/Prescription";
-import { User } from "@/lib/db/models/User";
 import { writeAudit } from "@/lib/services/audit";
 import type { DispenseInput, MedicineInput } from "@/lib/validations/pharmacy";
 
@@ -40,8 +39,8 @@ export async function listMedicines(params: { q?: string; activeOnly?: boolean }
       { genericName: { $regex: q, $options: "i" } },
     ];
   }
-  const meds = await Medicine.find(filter).sort({ name: 1 }).lean();
-  return meds.map((m: any) => ({
+  const meds = await Medicine.find(filter).sort({ name: 1 }).lean() as Array<{ _id: unknown; name: string; genericName?: string | null; strength?: string | null; form: string; unit: string; stock: number; minStock: number; price: number; isActive: boolean }>;
+  return meds.map((m) => ({
     id: String(m._id),
     name: m.name,
     genericName: m.genericName ?? null,
@@ -120,17 +119,17 @@ export async function dispensePrescription(params: {
   }
 
   if (params.input.prescriptionId) {
-    const exists = await Prescription.exists({ _id: new Types.ObjectId(params.input.prescriptionId) } as any);
+    const exists = await Prescription.exists({ _id: new Types.ObjectId(params.input.prescriptionId) });
     if (!exists) throw new PharmacyServiceError("NOT_FOUND", "Prescription not found", 404);
   }
   if (params.input.encounterId) {
-    const exists = await Encounter.exists({ _id: new Types.ObjectId(params.input.encounterId) } as any);
+    const exists = await Encounter.exists({ _id: new Types.ObjectId(params.input.encounterId) });
     if (!exists) throw new PharmacyServiceError("NOT_FOUND", "Encounter not found", 404);
   }
 
   const medicineIds = params.input.items.map((i) => i.medicineId).filter((id) => isValidObjectId(id));
-  const medicines = await Medicine.find({ _id: { $in: medicineIds.map((id) => new Types.ObjectId(id)) } as any }).lean();
-  const medMap = new Map((medicines as any[]).map((m) => [String(m._id), m]));
+  const medicines = await Medicine.find({ _id: { $in: medicineIds.map((id) => new Types.ObjectId(id)) } }).lean() as Array<{ _id: unknown; name: string; isActive?: boolean; stock?: number }>;
+  const medMap = new Map(medicines.map((m) => [String(m._id), m]));
 
   for (const item of params.input.items) {
     const med = medMap.get(item.medicineId);
@@ -164,7 +163,7 @@ export async function dispensePrescription(params: {
   });
 
   for (const item of params.input.items) {
-    await Medicine.updateOne({ _id: new Types.ObjectId(item.medicineId) } as any, { $inc: { stock: -item.quantity } });
+    await Medicine.updateOne({ _id: new Types.ObjectId(item.medicineId) }, { $inc: { stock: -item.quantity } });
   }
 
   await writeAudit({
@@ -207,7 +206,7 @@ export async function listDispenses(params: {
   ]);
 
   return {
-    dispenses: rows.map((r: any) => ({
+    dispenses: rows.map((r: { _id: unknown; prescriptionId?: unknown; patientId: unknown; encounterId?: unknown; dispensedBy: unknown; items: unknown; notes?: unknown; dispensedAt: Date | string }) => ({
       id: String(r._id),
       prescriptionId: r.prescriptionId ? String(r.prescriptionId) : null,
       patientId: String(r.patientId),
