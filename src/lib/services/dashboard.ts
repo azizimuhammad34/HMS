@@ -39,8 +39,18 @@ export type SuperAdminDashboard = {
     completed: number;
     cancelled: number;
   };
+  /** Completed payment totals for the last 7 hospital-local calendar days. */
+  revenueTrend: Array<{ date: string; revenue: number }>;
   alerts: string[];
 };
+
+function lastNHospitalDates(now: Date, n: number): string[] {
+  const labels: string[] = [];
+  for (let i = n - 1; i >= 0; i -= 1) {
+    labels.push(getDayBounds(new Date(now.getTime() - i * 86_400_000)).label);
+  }
+  return labels;
+}
 
 export type RoleDashboardSummary = {
   role: Role;
@@ -55,6 +65,10 @@ export async function getSuperAdminDashboard(
 ): Promise<SuperAdminDashboard> {
   await connectDb();
   const { start, end, label } = getDayBounds(now);
+  const trendDates = lastNHospitalDates(now, 7);
+  const trendStart = getDayBounds(
+    new Date(now.getTime() - 6 * 86_400_000),
+  ).start;
 
   const [
     registeredPatientsToday,
@@ -65,6 +79,7 @@ export async function getSuperAdminDashboard(
     recentPatients,
     recentPayments,
     appointmentGroups,
+    revenueByDay,
   ] = await Promise.all([
     Patient.countDocuments({ createdAt: { $gte: start, $lte: end } }),
     Encounter.countDocuments({ startedAt: { $gte: start, $lte: end } }),
@@ -114,6 +129,26 @@ export async function getSuperAdminDashboard(
       { $match: { scheduledAt: { $gte: start, $lte: end } } },
       { $group: { _id: "$status", count: { $sum: 1 } } },
     ]),
+    Payment.aggregate<{ _id: string; total: number }>([
+      {
+        $match: {
+          status: "completed",
+          paidAt: { $gte: trendStart, $lte: end },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            $dateToString: {
+              format: "%Y-%m-%d",
+              date: "$paidAt",
+              timezone: "Asia/Karachi",
+            },
+          },
+          total: { $sum: "$amount" },
+        },
+      },
+    ]),
   ]);
 
   const revenueToday = paymentAgg[0]?.total ?? 0;
@@ -140,6 +175,14 @@ export async function getSuperAdminDashboard(
     alerts.push("Scheduled appointments today have not yet been checked in.");
   }
 
+  const revenueMap = Object.fromEntries(
+    revenueByDay.map((row) => [row._id, row.total]),
+  ) as Record<string, number>;
+  const revenueTrend = trendDates.map((date) => ({
+    date,
+    revenue: revenueMap[date] ?? 0,
+  }));
+
   return {
     dateLabel: label,
     timezone: "Asia/Karachi",
@@ -165,6 +208,7 @@ export async function getSuperAdminDashboard(
       paidAt: new Date(p.paidAt).toISOString(),
     })),
     appointmentsToday,
+    revenueTrend,
     alerts,
   };
 }

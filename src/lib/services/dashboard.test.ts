@@ -32,6 +32,8 @@ describe("getSuperAdminDashboard", () => {
     expect(data.metrics.revenueToday).toBe(0);
     expect(data.recentRegistrations).toEqual([]);
     expect(data.recentPayments).toEqual([]);
+    expect(data.revenueTrend).toHaveLength(7);
+    expect(data.revenueTrend.every((point) => point.revenue === 0)).toBe(true);
   });
 
   it("separates registrations, visits, and actual payment revenue", async () => {
@@ -115,5 +117,9 @@ describe("getSuperAdminDashboard", () => {
     expect(data.appointmentsToday.total).toBe(1);
     expect(data.appointmentsToday.scheduled).toBe(1);
     expect(data.recentRegistrations[0]?.patientId).toBe("HOSP-000001");
+    expect(data.revenueTrend).toHaveLength(7);
+    expect(
+      data.revenueTrend.find((point) => point.date === data.dateLabel)?.revenue,
+    ).toBe(1500);
   });
 });

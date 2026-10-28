@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SA Dashboard CSS preview</title>
+<style>
+:root {
+  --background: #f4f7f8;
+  --foreground: #152028;
+  --color-primary: #0f6a6a;
+  --color-primary-hover: #0c5555;
+  --color-danger: #b42318;
+  --color-border: #d7e0e4;
+  --color-text: #152028;
+  --color-text-muted: #5b6b75;
+  --color-surface: #ffffff;
+  --color-surface-muted: #eef3f5;
+  --color-sidebar: #12343d;
+  --color-sidebar-text: #e8eef0;
+}
+
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-source-sans), "Segoe UI", sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+/* Super Admin dashboard — scoped chrome so MetricCard divider styles cannot flatten it. */
+.sa-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 1200px;
+}
+
+.sa-dashboard .sa-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  padding: 1.35rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, #ffffff 0%, #f3fafb 100%);
+  box-shadow: 0 10px 30px rgba(18, 52, 61, 0.05);
+}
+
+.sa-dashboard .sa-kicker {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.sa-dashboard .sa-hero h1 {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-ibm-plex), var(--font-source-sans), sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--color-text);
+}
+
+.sa-dashboard .sa-hero-copy {
+  margin: 0.45rem 0 0;
+  max-width: 40rem;
+  font-size: 0.925rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.sa-dashboard .sa-hero-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 9rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #cfe3e6;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.sa-dashboard .sa-hero-meta span {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+}
+
+.sa-dashboard .sa-hero-meta strong {
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.sa-dashboard .sa-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.sa-dashboard .sa-kpi {
+  display: flex;
+  flex-direction: column;
+  min-height: 9.5rem;
+  padding: 1.15rem 1.2rem 1.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 12px 28px rgba(15, 80, 90, 0.06);
+}
+
+.sa-dashboard .sa-kpi-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-bottom: 0.85rem;
+  border-radius: 10px;
+  background: #e7f4f4;
+  color: var(--color-primary);
+}
+
+.sa-dashboard .sa-kpi-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.sa-dashboard .sa-kpi-label {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-text-muted);
+}
+
+.sa-dashboard .sa-kpi-value {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-ibm-plex), var(--font-source-sans), sans-serif;
+  font-size: 1.55rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+.sa-dashboard .sa-kpi-hint {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.sa-dashboard .sa-grid-main,
+.sa-dashboard .sa-grid-secondary {
+  display: grid;
+  gap: 1rem;
+}
+
+.sa-dashboard .sa-grid-main {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+}
+
+.sa-dashboard .sa-grid-secondary {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.sa-dashboard .sa-panel {
+  padding: 1.15rem 1.2rem 1.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+
+.sa-dashboard .sa-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.sa-dashboard .sa-panel-head h2,
+.sa-dashboard .sa-list-block h3 {
+  margin: 0;
+  font-family: var(--font-ibm-plex), var(--font-source-sans), sans-serif;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.sa-dashboard .sa-panel-sub {
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: var(--color-text-muted);
+}
+
+.sa-dashboard .sa-link {
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sa-dashboard .sa-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sa-dashboard .sa-link-footer {
+  display: inline-block;
+  margin-top: 0.85rem;
+}
+
+.sa-dashboard .sa-chart {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.55rem;
+  align-items: end;
+  min-height: 13rem;
+  padding: 0.25rem 0 0;
+}
+
+.sa-dashboard .sa-chart-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.sa-dashboard .sa-chart-amount {
+  font-size: 0.62rem;
+  line-height: 1.2;
+  color: var(--color-text-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.sa-dashboard .sa-chart-track {
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  height: 9.5rem;
+  padding: 0 0.2rem;
+}
+
+.sa-dashboard .sa-chart-bar {
+  display: block;
+  width: 100%;
+  height: var(--bar-size, 4%);
+  border-radius: 8px 8px 4px 4px;
+  background: linear-gradient(180deg, #1a9a9a 0%, #0f6a6a 100%);
+}
+
+.sa-dashboard .sa-chart-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.sa-dashboard .sa-meter + .sa-meter {
+  margin-top: 0.7rem;
+}
+
+.sa-dashboard .sa-meter-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.8rem;
+  color: var(--color-text);
+}
+
+.sa-dashboard .sa-meter-row strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.sa-dashboard .sa-meter-track {
+  height: 0.45rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--color-surface-muted);
+}
+
+.sa-dashboard .sa-meter-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.sa-dashboard .sa-meter-teal {
+  background: #0f6a6a;
+}
+
+.sa-dashboard .sa-meter-blue {
+  background: #1d6f9a;
+}
+
+.sa-dashboard .sa-meter-amber {
+  background: #c47b16;
+}
+
+.sa-dashboard .sa-meter-slate {
+  background: #5b6b75;
+}
+
+.sa-dashboard .sa-outstanding,
+.sa-dashboard .sa-total {
+  margin: 1rem 0 0;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.sa-dashboard .sa-total {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin: 0 0 1rem;
+}
+
+.sa-dashboard .sa-total strong {
+  font-family: var(--font-ibm-plex), sans-serif;
+  font-size: 1.6rem;
+  color: var(--color-text);
+}
+
+.sa-dashboard .sa-list-block {
+  margin-top: 1.15rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.sa-dashboard .sa-list-block h3 {
+  margin-bottom: 0.65rem;
+}
+
+.sa-dashboard .sa-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sa-dashboard .sa-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.875rem;
+}
+
+.sa-dashboard .sa-list li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.sa-dashboard .sa-list p,
+.sa-dashboard .sa-list time {
+  margin: 0.15rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.sa-dashboard .sa-list time {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.sa-dashboard .sa-pay-amount {
+  margin: 0;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.sa-dashboard .sa-status {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.sa-dashboard .sa-status-completed {
+  color: #0f6a6a;
+}
+
+.sa-dashboard .sa-status-refunded {
+  color: #b42318;
+}
+
+.sa-dashboard .sa-alerts {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+}
+
+.sa-dashboard .sa-alerts li {
+  margin-bottom: 0.55rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #f0d7a8;
+  border-left: 3px solid #c47b16;
+  border-radius: 10px;
+  background: #fff8eb;
+  font-size: 0.85rem;
+  color: #6a4b12;
+}
+
+.sa-dashboard .sa-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.sa-dashboard .sa-action-row a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid #cfe3e6;
+  border-radius: 999px;
+  background: #f4fbfb;
+  color: var(--color-primary);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sa-dashboard .sa-action-row a:hover {
+  background: #e5f4f4;
+}
+
+@media (max-width: 1100px) {
+  .sa-dashboard .sa-kpi-grid,
+  .sa-dashboard .sa-grid-secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sa-dashboard .sa-grid-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .sa-dashboard .sa-kpi-grid,
+  .sa-dashboard .sa-grid-secondary,
+  .sa-dashboard .sa-chart {
+    grid-template-columns: 1fr;
+  }
+
+  .sa-dashboard .sa-chart {
+    min-height: 0;
+  }
+
+  .sa-dashboard .sa-chart-col {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr 7rem;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .sa-dashboard .sa-chart-track {
+    height: 0.7rem;
+    order: 2;
+    padding: 0;
+  }
+
+  .sa-dashboard .sa-chart-bar {
+    height: 100%;
+    width: var(--bar-size, 4%);
+    border-radius: 999px;
+  }
+
+  .sa-dashboard .sa-chart-label {
+    order: 1;
+  }
+
+  .sa-dashboard .sa-chart-amount {
+    order: 3;
+    max-width: none;
+  }
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+  margin: 0;
+  padding: 24px;
+}
+</style>
+</head>
+<body>
+<div class="sa-dashboard">
+  <header class="sa-hero">
+    <div>
+      <p class="sa-kicker">Operations</p>
+      <h1>Hospital overview</h1>
+      <p class="sa-hero-copy">Live counts for 2026-03-16 (Asia/Karachi). Revenue uses completed payments received, not invoices issued.</p>
+    </div>
+    <div class="sa-hero-meta"><span>Hospital day</span><strong>2026-03-16</strong></div>
+  </header>
+  <section class="sa-kpi-grid">
+    <article class="sa-kpi"><div class="sa-kpi-icon">P</div><p class="sa-kpi-label">Registered patients</p><p class="sa-kpi-value">2</p><p class="sa-kpi-hint">New records created today</p></article>
+    <article class="sa-kpi"><div class="sa-kpi-icon">V</div><p class="sa-kpi-label">Patient visits</p><p class="sa-kpi-value">3</p><p class="sa-kpi-hint">Encounters started today</p></article>
+    <article class="sa-kpi"><div class="sa-kpi-icon">R</div><p class="sa-kpi-label">Today's revenue</p><p class="sa-kpi-value">PKR 1,500</p><p class="sa-kpi-hint">Completed payments</p></article>
+    <article class="sa-kpi"><div class="sa-kpi-icon">N</div><p class="sa-kpi-label">Net collections</p><p class="sa-kpi-value">PKR 1,300</p><p class="sa-kpi-hint">Refunds PKR 200</p></article>
+  </section>
+  <div class="sa-grid-main">
+    <section class="sa-panel">
+      <header class="sa-panel-head"><h2>Revenue trend</h2></header>
+      <p class="sa-panel-sub">Completed payments for the last seven hospital days, including today.</p>
+      <div class="sa-chart">
+        <div class="sa-chart-col"><span class="sa-chart-amount">—</span><div class="sa-chart-track"><span class="sa-chart-bar" style="--bar-size:4%"></span></div><span class="sa-chart-label">Tue</span></div>
+        <div class="sa-chart-col"><span class="sa-chart-amount">PKR 200</span><div class="sa-chart-track"><span class="sa-chart-bar" style="--bar-size:13%"></span></div><span class="sa-chart-label">Wed</span></div>
+        <div class="sa-chart-col"><span class="sa-chart-amount">—</span><div class="sa-chart-track"><span class="sa-chart-bar" style="--bar-size:4%"></span></div><span class="sa-chart-label">Thu</span></div>
+        <div class="sa-chart-col"><span class="sa-chart-amount">PKR 800</span><div class="sa-chart-track"><span class="sa-chart-bar" style="--bar-size:53%"></span></div><span class="sa-chart-label">Fri</span></div>
+        <div class="sa-chart-col"><span class="sa-chart-amount">—</span><div class="sa-chart-track"><span class="sa-chart-bar" style="--bar-size:4%"></span></div><span class="sa-chart-label">Sat</span></div>
+        <div class="sa-chart-col"><span class="sa-chart-amount">—</span><div class="sa-chart-track"><span class="sa-chart-bar" style="--bar-size:4%"></span></div><span class="sa-chart-label">Sun</span></div>
+        <div class="sa-chart-col"><span class="sa-chart-amount">PKR 1,500</span><div class="sa-chart-track"><span class="sa-chart-bar" style="--bar-size:100%"></span></div><span class="sa-chart-label">Mon</span></div>
+      </div>
+    </section>
+    <section class="sa-panel">
+      <header class="sa-panel-head"><h2>Patient activity</h2></header>
+      <div class="sa-meter"><div class="sa-meter-row"><span>Registered patients</span><strong>2</strong></div><div class="sa-meter-track"><span class="sa-meter-fill sa-meter-teal" style="width:66%"></span></div></div>
+      <div class="sa-meter"><div class="sa-meter-row"><span>Patient visits</span><strong>3</strong></div><div class="sa-meter-track"><span class="sa-meter-fill sa-meter-blue" style="width:100%"></span></div></div>
+      <div class="sa-meter"><div class="sa-meter-row"><span>Appointments</span><strong>4</strong></div><div class="sa-meter-track"><span class="sa-meter-fill sa-meter-slate" style="width:100%"></span></div></div>
+    </section>
+  </div>
+  <div class="sa-grid-secondary">
+    <section class="sa-panel"><header class="sa-panel-head"><h2>Appointment summary</h2></header><p class="sa-total"><strong>4</strong><span>total today</span></p></section>
+    <section class="sa-panel"><header class="sa-panel-head"><h2>Operational alerts</h2></header><ul class="sa-alerts"><li>There are open invoice balances requiring follow-up.</li></ul></section>
+    <section class="sa-panel"><header class="sa-panel-head"><h2>Recent payment activity</h2></header><ul class="sa-list"><li><div><p class="sa-pay-amount">PKR 1,500</p><p class="sa-status sa-status-completed">completed</p></div><time>10:00</time></li></ul></section>
+  </div>
+</div>
+</body>
+</html>
